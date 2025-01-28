@@ -130,7 +130,7 @@ Then you can join any number of worker nodes by running the following on each as
 	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 
 ```
 
-## Kubernetes Worker
+#### Kubernetes Worker
 ```shell
 kubeadm join controller:6443 --token xxxxxx.xxxxxxxxxxxxxxxx \
 	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
