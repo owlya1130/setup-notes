@@ -55,17 +55,25 @@ mount -a
 ```
 
 ### Network Configuration
-> 因為安裝 init Kubernetes 後有遇到問題，ChatGPT 教我做以下設定(暫時找不到文檔)
-
 ```shell
-modprobe br_netfilter
-echo "br_netfilter" | tee -a /etc/modules
-lsmod | grep br_netfilter
-sysctl -w net.bridge.bridge-nf-call-iptables=1
-sysctl -w net.bridge.bridge-nf-call-ip6tables=1
+# 允許網橋（bridge）接收網路層的流量過濾功能
+# 加載相關模塊
+sudo modprobe br_netfilter
+# 建立相關設定
+echo 'br_netfilter' | sudo tee /etc/modules-load.d/br_netfilter.conf
+# 立即採用設定
+sudo sysctl -p
+
+# IP轉發和網橋過濾相關的設定
+# 使通過網橋的流量可以被iptables的規則處理
+echo "1" | tee /proc/sys/net/bridge/bridge-nf-call-iptables
+# 開啟IP轉發
+echo "net.ipv4.ip_forward = 1" | tee -a /etc/sysctl.conf
+# 寫入設定 確保每次開機可以直接運行
 echo "net.bridge.bridge-nf-call-iptables = 1" | tee -a /etc/sysctl.conf
 echo "net.bridge.bridge-nf-call-ip6tables = 1" | tee -a /etc/sysctl.conf
-sysctl -p
+# 立即載入設定
+sudo sysctl -p
 ```
 
 ### Packages Installation
